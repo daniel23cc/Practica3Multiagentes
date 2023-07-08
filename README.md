@@ -21,10 +21,10 @@ El diseño de las ontologías estará pensado para resolver las necesidades de c
     - Comunicar el resultado de las diferentes partidas.
   
 En nuestro caso, vamos a diseñar las ontologías para los siguientes juegos: 
-1. BackGammon
-2. Parchis
-3. Escalera
-4. Gatos y raton
+1. [BackGammon](https://www.youtube.com/watch?v=peTdgXYeQKg)
+2. [Parchís](https://www.youtube.com/watch?v=zyB784dKiBM)
+3. [Escalera](https://www.youtube.com/watch?v=ncYhKhGsQwc)
+4. [Gatos y raton](https://www.youtube.com/watch?v=Eo_UdPnwTno)
 
 Como el diseño de las ontologías estará enfocado en resolver las necesidades de comunicación entre los agentes se incluirán los diagramas UML para los diferentes protocolos de comunicación entre **agentes-FIPA** que las resuelven.
   
@@ -53,7 +53,7 @@ Para resolver esta pregunta utilizaremos la utilidad del servicio de páginas am
 
 `TipoJuego` : Representa a los tipos de juegos representados en la ontología y que formará parte del nombre del servicio del agente y también forma parte del vocabulario.
 
-- ``[`BackGammon` | `Parchis` | `Escalera` | `Gatos y raton`]`` 
+- ``[BackGammon | Parchis | Escalera | Gatos y raton]`` 
 
 Hay un agente especializado que será el encargado en localizar a todos los agentes especializados. Este agente es `AgenteMonitor` y que deberá conocer todos los elementos de la ontología y será desarrollado por el profesor de la asignatura.
 
@@ -91,8 +91,8 @@ En el diagrama se presentan los elementos de la ontología que deberán formar p
 - `ProponerJuego` : Tiene la información necesaria para que los agentes puedan tomar su decisión
 	- `Juego` : representa al juego en el que debe participar el jugador.
 		- `idJuego` : identificará de forma unívoca el juego.
-		- `TipoJuego` : ``[`BackGammon` | `Parchis` | `Escalera` | `Gatos y raton`]`` uno de los tipos de juego disponibles en la ontología.
-	- `Modo` : ``[`UNICO` | `ELIMINATORIA` | `TORNEO`]`` desarrollo del juego. Esto determina en el número de partidas que deberá completar cada jugador en el juego.
+		- `TipoJuego` : ``[BackGammon | Parchis | Escalera | Gatos y raton]`` uno de los tipos de juego disponibles en la ontología.
+	- `Modo` : ``[UNICO | ELIMINATORIA | TORNEO]`` desarrollo del juego. Esto determina en el número de partidas que deberá completar cada jugador en el juego.
 	
 	 - `InfoJuego` : es un concepto abstracto que permite representar los datos necesarios de un juego. De esta forma se extender la ontología con nuevos tipos de juegos.
 		- `BackGammon` : los atributos necesarios para el juego del BackGammon.
@@ -151,7 +151,7 @@ En el diagrama se presentan los elementos de la ontología que deberán formar p
 
 - `CompletarJuego` : Tiene la información necesaria para generar las partidas individuales que permitan completar el juego propuesto.
     - `Juego` : juego que se debe completar.
-    - `Modo` : ``[`UNICO` | `ELIMINATORIA` | `TORNEO`]`` desarrollo del juego. Esto determina en el número de partidas que deberá completar cada jugador en el juego.
+    - `Modo` : ``[UNICO | ELIMINATORIA | TORNEO]`` desarrollo del juego. Esto determina en el número de partidas que deberá completar cada jugador en el juego.
     - `InfoJuego` : es un concepto abstracto que permite representar los datos necesarios de un juego. De esta forma se extender la ontología con nuevos tipos de juegos.
     - `ListaJugadores` : es una colección de elementos `Jugador`, y al menos deben ser dos, que participarán en las partidas que definen el juego.
 
@@ -188,7 +188,7 @@ En el diagrama se presentan los elementos de la ontología que deberán formar p
 	- `AgenteJugador` : representa al agente especializado que desea recibir la información. Es un concepto abstracto que permite representar a los agentes especializados y así poder extender la ontología para atender la posibilidad que se añadan más agentes especializados.
 
 - `SubInform` : Elemento abstracto para representar las posibilidades de información que puede recibir el agente especializado. En este caso los valores pueden ser:
-	-  ``[`ClasificacionJuego` | `IncidenciaJuego` ]`` contempla las posibilidades de finalización de un juego.
+	-  ``[ClasificacionJuego | IncidenciaJuego ]`` contempla las posibilidades de finalización de un juego.
 
 - `ClasificacionJuego` : Si el juego ha finalizado correctamente se envía la información relativa a la clasificación del juego con los jugadores implicados.
 	- `Juego` : representa el juego que ha finalizado.
@@ -196,7 +196,7 @@ En el diagrama se presentan los elementos de la ontología que deberán formar p
 	- `ListaPuntuacion` : colección con los puntos obtenidos por cada uno de los jugadores de la lista anterior. 
 
 - `IncidenciaJuego` : si la partida no finaliza de forma normal este elemento indicará el motivo
-	- ``[`CANCELADO`, `JUGADORES_INSUFICIENTES`]`` posibles valores recogidos en el vocabulario para una finalización incompleta del juego.
+	- ``[CANCELADO, JUGADORES_INSUFICIENTES]`` posibles valores recogidos en el vocabulario para una finalización incompleta del juego.
 
 ##### 1.5 ¿Cómo generar las partidas que componen un juego ?
 
@@ -235,41 +235,6 @@ Para completar un turno de juego se envía el mismo mensaje a los jugadores que 
 Turno para los juegos:
 
 **Parchís, Escalera y Backgammon**
-
-En el diagrama se presentan los elementos de la ontología que deberán formar parte del contenido del mensaje que se envía al agente. Los elementos de la ontología tendrán los siguientes atributos:
-- `TiradaDado`: estos juegos necesitan tirar uno o varios dados para calcular el movimiento
-	- `NumeroMovimientos`: cuantas casillas se podrá mover la ficha
-
-- `PedirMovimiento` : Información necesaria para completar el turno de juego.
-    - `Partida` : partida a la que corresponde el turno.
-    - `Jugador` : jugador que tiene que realizar el movimiento, **jugador activo**.
-
-- `EstadoPartida` : Información sobre posibles contingencias que pueden ocurrir durante la partida.
-    - `Partida` : partida a la que corresponde el turno.
-    - `Estado` : posibles estados en los que se puede encontrar la partida. Sus valores están definidos en el vocabulario.
-        - ``[`GANADOR` | `ABANDONO` | `SEGUIR_JUGANDO` | `FIN_PARTIDA` | `JUGADOR_NO_ACTIVO`]``
-
-- `MovimientoEntregado` : Información del movimiento que realiza el jugador activo del turno. 
-    - `Partida` : partida a la que corresponde el turno.
-    - `Movimiento` : un movimiento válido, suponemos que los jugadores juegan correctamente.
-        - `FichaJuego` : elemento abstracto que permite representar las posibles fichas de un juego.
-        - `Posicion` : localización de la ficha en el tablero.
-            - (`Fila` , `Columna`)
-
-- `FichaJuego`
-	- `Ficha Parchis y Escalera` : ficha para los juegos
-		- `Jugador` : jugador asociado a la ficha
-		- `Color` : ``[ ROJO | AZUL | VERDE | AMARILLO]`` una de las posibilidades definidas en el vocabulario de la ontología.
-	
-
-La única diferencia entre estos dos juegos es que en el parchís, el jugador puede elegir entre 4 fichas que están asociadas a él para poder hacer el movimiento, mientras que en la Escalera, el jugador solo podrá mover una única ficha.
-
-- `FichaJuego`
-	- `Ficha Backgammon` : ficha para los juegos
-		- `Jugador` : jugador asociado a la ficha
-		- `Color` : ``[ BLANCO | NEGRO]`` una de las posibilidades definidas en el vocabulario de la ontología.
-
-
 
 ```mermaid
 sequenceDiagram
@@ -313,291 +278,175 @@ AgenteJugador-->>AgenteTablero: inform-done(EstadoPartida)
 end
 ```
 
+En el diagrama se presentan los elementos de la ontología que deberán formar parte del contenido del mensaje que se envía al agente. Los elementos de la ontología tendrán los siguientes atributos:
 
+- `TiradaDado`: estos juegos necesitan tirar uno o varios dados para calcular el movimiento
+	- `NumeroMovimientos`: cuantas casillas se podrá mover la ficha
 
+- `PedirMovimiento` : Información necesaria para completar el turno de juego.
+    - `Partida` : partida a la que corresponde el turno.
+    - `Jugador` : jugador que tiene que realizar el movimiento, **jugador activo**.
 
-#### AgenteJugador
-Este agente representa a un jugador en el juego. Su tarea principal es decidir qué movimientos hacer en función del estado del juego. Este agente debería ser lo suficientemente flexible como para poder jugar a cualquier juego de tablero, no solo al Juego de la Escalera o al Parchís.
+- `EstadoPartida` : Información sobre posibles contingencias que pueden ocurrir durante la partida.
+    - `Partida` : partida a la que corresponde el turno.
+    - `Estado` : posibles estados en los que se puede encontrar la partida. Sus valores están definidos en el vocabulario.
+        - ``[GANADOR | ABANDONO | SEGUIR_JUGANDO | FIN_PARTIDA | JUGADOR_NO_ACTIVO]``
 
-##### Tareas
-- **Interpretar el estado del juego**: Cuando el Agente Tablero envía una actualización sobre el estado del juego, el Agente Jugador debe ser capaz de interpretar esa información y entender qué está pasando en el juego. Esto incluiría entender la posición de su propia ficha, la posición de las fichas de los otros jugadores, la presencia de elementos especiales como escaleras o serpientes, etc.
- ```mermaid
+- `MovimientoEntregado` : Información del movimiento que realiza el jugador activo del turno. 
+    - `Partida` : partida a la que corresponde el turno.
+    - `Movimiento` : un movimiento válido, suponemos que los jugadores juegan correctamente.
+        - `FichaJuego` : elemento abstracto que permite representar las posibles fichas de un juego.
+        - `Posicion` : localización de la ficha en el tablero.
+            - (`Fila` , `Columna`)
 
-sequenceDiagram
-    participant AgenteTablero as Agente Tablero
-    participant AgenteJugador as Agente Jugador
-    AgenteTablero->>AgenteJugador: INFORM (Estado del juego)
-    Note right of AgenteJugador: Interpreta el estado del juego
-```
+- `FichaJuego`
+	- `Ficha Parchis y Escalera` : ficha para los juegos
+		- `Jugador` : jugador asociado a la ficha
+		- `Color` : ``[ ROJO | AZUL | VERDE | AMARILLO]`` una de las posibilidades definidas en el vocabulario de la ontología.
+	
 
+La única diferencia entre estos dos juegos es que en el parchís, el jugador puede elegir entre 4 fichas que están asociadas a él para poder hacer el movimiento, mientras que en la Escalera, el jugador solo podrá mover una única ficha.
 
--  **Decidir movimiento específico del juego**: En esta tarea se decide  un movimiento de acuerdo con las reglas y estrategias específicas del juego que se está jugando
- ```mermaid
-sequenceDiagram
-    participant AgenteJugador as Agente Jugador
-    participant AgenteTablero as Agente Tablero
-    participant AgenteArbitro as Agente Árbitro
-    AgenteJugador->>AgenteTablero: REQUEST Estado del juego
-    AgenteTablero-->>AgenteJugador: INFORM Estado del juego
-    Note right of AgenteJugador: Decide un movimiento basado en las reglas y estrategias específicas del juego
-    AgenteJugador->>AgenteArbitro: PROPOSE Movimiento
-    Note right of AgenteArbitro: Verifica si el movimiento es válido según las reglas específicas del juego
-    alt Movimiento válido
-        AgenteArbitro-->>AgenteJugador: ACCEPT-PROPOSAL Movimiento
-    else Movimiento inválido
-        AgenteArbitro-->>AgenteJugador: REJECT-PROPOSAL Movimiento
-    end
+- `FichaJuego`
+	- `Ficha Backgammon` : ficha para los juegos
+		- `Jugador` : jugador asociado a la ficha
+		- `Color` : ``[ BLANCO | NEGRO]`` una de las posibilidades definidas en el vocabulario de la ontología.
 
-```
-    
-- **Proponer el movimiento al Agente Arbitro**: Una vez que el Agente Jugador ha decidido qué movimiento hacer, debe proponer ese movimiento al Agente Arbitro utilizando el protocolo FIPA PROPOSE. El Agente Jugador debe ser capaz de comunicar su movimiento propuesto de una manera que el Agente Arbitro pueda entender.
+**Gatos y ratón**
+
 ```mermaid
 sequenceDiagram
-    participant AgenteJugador as Agente Jugador
-    participant AgenteArbitro as Agente Árbitro
-    AgenteJugador->>AgenteArbitro: PROPOSE Movimiento
-    AgenteArbitro->>AgenteJugador: AGREE/REFUSE (Validación)
-    Note right of AgenteJugador: Propone un movimiento basado en su decisión
 
+AgenteTablero->>AgenteJugador: CFP (PedirMovimiento)
 
+Note left of AgenteTablero: 2 seg time out
 
+alt
+
+AgenteJugador-->>AgenteTablero: Refuse (EstadoPartida)
+
+Note right of AgenteJugador: Si hay abandono
+
+else
+
+AgenteJugador-->>AgenteTablero: Propose (EstadoPartida)
+
+Note right of AgenteJugador: Agente que no mueve en el turno
+
+else
+
+AgenteJugador-->>AgenteTablero: Propose (MovimientoEntregadoLinea)
+
+Note right of AgenteJugador: Agente que no mueve en el turno
+
+end
+
+alt
+
+AgenteTablero->>AgenteJugador: accept-proposal(MovimientoEntregadoLinea)
+
+Note left of AgenteTablero: Para todos los jugadores
+
+else
+
+Note right of AgenteJugador: Seguir jugando o Ganador
+
+AgenteJugador-->>AgenteTablero: inform-done(EstadoPartida)
+
+end
 ```
-    
-- **Responder a la validación del Agente Arbitro**: Si el Agente Arbitro valida el movimiento propuesto el Agente Jugador puede proceder con su turno. Si el Agente Arbitro rechaza el movimiento propuesto el Agente Jugador debe ser capaz de proponer un nuevo movimiento.
+
+En el diagrama se presentan los elementos de la ontología que deberán formar parte del contenido del mensaje que se envía al agente. Los elementos de la ontología tendrán los siguientes atributos:
+
+- `PedirMovimiento` : Información necesaria para completar el turno de juego.
+    - `Partida` : partida a la que corresponde el turno.
+    - `Jugador` : jugador que tiene que realizar el movimiento, **jugador activo**.
+
+- `EstadoPartida` : Información sobre posibles contingencias que pueden ocurrir durante la partida.
+    - `Partida` : partida a la que corresponde el turno.
+    - `Estado` : posibles estados en los que se puede encontrar la partida. Sus valores están definidos en el vocabulario.
+        - ``[GANADOR | ABANDONO | SEGUIR_JUGANDO | FIN_PARTIDA | JUGADOR_NO_ACTIVO]``
+
+- `MovimientoEntregado` : Información del movimiento que realiza el jugador activo del turno. 
+    - `Partida` : partida a la que corresponde el turno.
+    - `Movimiento` : un movimiento válido, suponemos que los jugadores juegan correctamente.
+        - `FichaJuego` : elemento abstracto que permite representar las posibles fichas de un juego.
+        - `Posicion` : localización de la ficha en el tablero.
+            - (`Fila` , `Columna`)
+
+- `FichaJuego`
+	- `Ficha Parchis y Escalera` : ficha para los juegos
+		- `Jugador` : jugador asociado a la ficha
+		- `Color` : ``[ BLANCO | NEGRO]`` una de las posibilidades definidas en el vocabulario de la ontología.
+	
+
+##### 1.7 ¿Como informar del resultado de la partida?
+Un `AgenteArbitro` o  `AgenteJugador` que participe en partidas dirigidas por un `AgenteTablero` necesita conocer el resultado de las partidas que el `AgenteTablero` complete. La información que remite el `AgenteTablero` debe identificar el agente que la solicita para reciba solo las partidas en las que está implicado.
+
 ```mermaid
 sequenceDiagram
-    participant AgenteJugador as Agente Jugador
-    participant AgenteArbitro as Agente Árbitro
-    AgenteJugador->>AgenteArbitro: PROPOSE Movimiento
-    AgenteArbitro->>AgenteJugador: AGREE/REFUSE Validación
-    Note right of AgenteJugador: Propone un movimiento basado en su decisión
 
+AgenteArbitro->>AgenteTablero: Subscribe(informarResultado)
 
+Note left of AgenteTablero: 1 seg time out
 
+AgenteJugador->>AgenteTablero: Subscribe(informarResultado)
 
-```
-    
-- **Actualizar el estado del juego**: Una vez que el Agente Jugador ha completado su turno, debe ser capaz de actualizar su comprensión del estado del juego en función del movimiento que acaba de hacer.
-```mermaid
-sequenceDiagram
-    participant AgenteTablero as Agente Tablero
-    participant AgenteJugador as Agente Jugador
-    AgenteTablero->>AgenteJugador: INFORM Estado del juego
-    Note right of AgenteJugador: Actualiza el estado del juego
-```
-    
--  **Responder al fin del juego**: Cuando el Agente Arbitro anuncia el fin del juego (usando el protocolo FIPA INFORM), el Agente Jugador debe ser capaz de interpretar esa información y responder adecuadamente. Esto podría incluir celebrar si ha ganado, o reconocer la derrota si ha perdido.
- ```mermaid
-sequenceDiagram
-    participant AgenteArbitro as Agente Árbitro
-    participant AgenteTablero as Agente Tablero
-    participant AgenteJugador as Agente Jugador
-    AgenteArbitro->>AgenteTablero: INFORM Fin del juego
-    AgenteTablero->>AgenteJugador: INFORM Estado final del juego
-    AgenteJugador->>AgenteArbitro: INFORM Reconocimiento del fin del juego
-    Note right of AgenteJugador: Responde al fin del juego
+Note left of AgenteTablero: 1 seg time out
 
-```
-
-
-**AgenteTablero**
-Este agente representa al tablero del juego. Su tarea principal es mantener el estado del juego, que podría incluir la posición de las fichas, la presencia de elementos especiales como escaleras o serpientes (en el caso del Juego de la Escalera), etc. Este agente también debería ser lo suficientemente flexible como para poder manejar cualquier tipo de tablero de juego.
-
-##### Tareas
-- **Inicializar el estado del juego**: Al inicio del juego, el Agente Tablero debe establecer el estado inicial del juego. Esto podría incluir la colocación inicial de las fichas, la configuración de las escaleras y serpientes (en el caso del Juego de la Escalera), etc.
- ```mermaid
-sequenceDiagram
-    participant AgenteTablero as Agente Tablero
-    participant AgenteJugador as Agente Jugador
-    participant AgenteArbitro as Agente Árbitro
-    AgenteTablero->>AgenteTablero: Inicializar estado del juego
-    Note right of AgenteTablero: Establece el estado inicial del tablero
-    AgenteTablero->>AgenteJugador: INFORM Estado inicial del juego
-    AgenteTablero->>AgenteArbitro: INFORM Estado inicial del juego
-
-```
-    
--  **Mantener el estado del juego**: Durante el juego, el Agente Tablero debe mantener un registro actualizado del estado del juego. Esto incluiría la posición de cada ficha, la presencia de elementos especiales como escaleras o serpientes, etc.
- ```mermaid
-sequenceDiagram
-    participant AgenteTablero as Agente Tablero
-    Note over AgenteTablero: Mantiene el estado del juego
-
-
-```
-    
--  **Actualizar el estado del juego**: Cuando un Agente Jugador realiza un movimiento, el Agente Tablero debe actualizar el estado del juego en consecuencia. Esto podría implicar mover una ficha de una casilla a otra, aplicar los efectos de una escalera o serpiente, etc.
- ```mermaid
-sequenceDiagram
-    participant AgenteJugador as Agente Jugador
-    participant AgenteTablero as Agente Tablero
-    participant AgenteArbitro as Agente Árbitro
-    AgenteJugador->>AgenteTablero: INFORM Movimiento
-    Note right of AgenteTablero: Actualiza el estado del tablero
-    AgenteTablero->>AgenteJugador: INFORM Estado actualizado del juego
-    AgenteTablero->>AgenteArbitro: INFORM Estado actualizado del juego
-
-
-
-```
-    
--  **Informar el estado del juego**: El Agente Tablero debe ser capaz de informar el estado actual del juego a los demás agentes. Esto podría hacerse utilizando el protocolo FIPA INFORM para enviar una representación del estado del juego a los Agentes Jugadores y al Agente Arbitro.
- ```mermaid
-sequenceDiagram
-    participant AgenteTablero as Agente Tablero
-    participant AgenteJugador as Agente Jugador
-    participant AgenteArbitro as Agente Árbitro
-    AgenteTablero->>AgenteJugador: INFORM Estado del juego
-    AgenteTablero->>AgenteArbitro: INFORM Estado del juego
-    Note right of AgenteTablero: Informa el estado actual del juego
-
-
-
-```
-    
-- **Responder a consultas sobre el estado del juego**: El Agente Tablero debe ser capaz de responder a las consultas de los demás agentes sobre el estado del juego. Por ejemplo, un Agente Jugador podría usar el protocolo FIPA QUERY para preguntar sobre la posición de una ficha específica, y el Agente Tablero debería ser capaz de responder con la información correcta.
   
- ```mermaid
-sequenceDiagram
-    participant AgenteJugador as Agente Jugador
-    participant AgenteTablero as Agente Tablero
-    AgenteJugador->>AgenteTablero: REQUEST Estado del juego
-    Note right of AgenteTablero: Recibe la solicitud y busca la información
-    AgenteTablero->>AgenteJugador: INFORM Estado del juego
-    Note right of AgenteTablero: Responde con la información solicitada
 
+AgenteTablero-->>AgenteArbitro: Agree(justificacion)
 
-```
+Note right of AgenteTablero: Confirma que se ha realizado la subscripcion
+
   
- **AgenteArbitro**
-Este agente supervisa el juego y garantiza que se sigan las reglas. Su tarea principal es validar los movimientos propuestos por los Agentes Jugadores y determinar cuándo ha terminado el juego. Este agente debería ser capaz de entender y aplicar las reglas de cualquier juego de tablero (tal y como se indica que se tenga en consideración en la documentación)
-##### Tareas
--  **Iniciar el juego**: Al inicio del juego, el Agente Árbitro debe notificar a los demás agentes que el juego ha comenzado. Esto podría hacerse utilizando el protocolo FIPA INFORM.
- ```mermaid
-sequenceDiagram
-    participant AgenteArbitro as Agente Árbitro
-    participant AgenteJugador as Agente Jugador
-    participant AgenteTablero as Agente Tablero
-    AgenteArbitro->>AgenteJugador: INFORM Inicio del juego
-    AgenteArbitro->>AgenteTablero: INFORM Inicio del juego
-    Note right of AgenteArbitro: Inicia el juego
 
+AgenteTablero-->>AgenteJugador: Agree (Justificacion)
 
+Note right of AgenteTablero: Confirma que se ha realizado la subscripcion
+
+  
+
+AgenteTablero-->>AgenteArbitro: Inform (ResultadoPArtida | Incidenciajuego)
+
+Note right of AgenteTablero: Se informará en otra tarea
+
+  
+
+  
+
+AgenteTablero-->>AgenteJugador: Inform (ResultadoPartida | IncidenciaJuego)
+
+Note right of AgenteTablero: Se informará en otra tarea
 ```
+
+En el diagrama se presentan los elementos de la ontología que deberán formar parte del contenido del mensaje que se envía al agente. En la **sección 1.4** ya se han presentado los elementos de la ontología que son necesarios. En este punto solo hay que especificar los siguientes elementos:
+
+- `SubInform` : Elemento abstracto para representar las posibilidades de información que puede recibir el agente especializado. En este caso los valores pueden ser:
     
-- **Validar los movimientos propuestos**: Cuando un Agente Jugador propone un movimiento (usando el protocolo FIPA PROPOSE), el Agente Árbitro debe validar ese movimiento. Esto implicaría comprobar que el movimiento es legal según las reglas del juego. Si el movimiento es válido, el Agente Árbitro usaría el protocolo FIPA AGREE para aceptar el movimiento. Si el movimiento no es válido, el Agente Árbitro usaría el protocolo FIPA REFUSE para rechazar el movimiento.
- ```mermaid
-sequenceDiagram
-    participant AgenteJugador as Agente Jugador
-    participant AgenteArbitro as Agente Árbitro
-    AgenteJugador->>AgenteArbitro: PROPOSE Movimiento
-    Note right of AgenteArbitro: Valida el movimiento propuesto
-    alt Movimiento válido
-        AgenteArbitro->>AgenteJugador: AGREE Validación
-    else Movimiento inválido
-        AgenteArbitro->>AgenteJugador: REFUSE Validación
-    end
+    - ``[ ResultadoPartida | IncidenciaJuego]``contempla las posibilidades de finalización de la partida.
 
-
-```
-    
-- **Determinar el turno de juego**: El Agente Árbitro debe determinar qué Agente Jugador tiene el turno en cada momento. Esto podría hacerse siguiendo un orden preestablecido (por ejemplo, en el orden en que los Agentes Jugadores se unieron al juego), o podría basarse en las reglas específicas del juego.
-```mermaid
-sequenceDiagram
-    participant AgenteArbitro as Agente Árbitro
-    participant AgenteJugador as Agente Jugador
-    Note right of AgenteArbitro: Determina el turno de juego
-    AgenteArbitro->>AgenteJugador: INFORM Tu turno
-
-
-
-```
-    
--  **Determinar el fin del juego**: El Agente Árbitro debe determinar cuándo ha terminado el juego. Esto podría basarse en una variedad de condiciones, dependiendo de las reglas del juego. Por ejemplo, en el Juego de la Escalera, el juego terminaría cuando un jugador llega a la última casilla del tablero.
- ```mermaid
-sequenceDiagram
-    participant AgenteArbitro as Agente Árbitro
-    participant AgenteJugador as Agente Jugador
-    participant AgenteTablero as Agente Tablero
-    Note right of AgenteArbitro: Determina el fin del juego
-    alt Juego terminado
-        AgenteArbitro->>AgenteJugador: INFORM Fin del juego
-        AgenteArbitro->>AgenteTablero: INFORM Fin del juego
-    else Juego continúa
-        Note right of AgenteArbitro: El juego continúa
-    end
-
-```
-    
--  **Anunciar el ganador**: Cuando el juego ha terminado, el Agente Árbitro debe anunciar el ganador. Esto podría hacerse utilizando el protocolo FIPA INFORM para enviar un mensaje a todos los agentes indicando quién ha ganado el juego.
- ```mermaid
-sequenceDiagram
-    participant AgenteArbitro as Agente Árbitro
-    participant AgenteJugador as Agente Jugador
-    participant AgenteTablero as Agente Tablero
-    Note right of AgenteArbitro: Determina el ganador
-    AgenteArbitro->>AgenteJugador: INFORM Ganador
-    AgenteArbitro->>AgenteTablero: INFORM Ganador
-
-
-```
-
--  **Validar movimiento específico del juego**: En esta tarea, el Agente Árbitro recibe una propuesta de movimiento del Agente Jugador. Este movimiento es entonces evaluado en el contexto de las reglas del juego específico. Por ejemplo, en el juego de los gatos y el ratón, esta tarea verificaría si los gatos sólo se están moviendo hacia adelante y si el ratón se está moviendo en cualquier dirección.
- ```mermaid
-sequenceDiagram
-    participant AgenteJugador as Agente Jugador
-    participant AgenteArbitro as Agente Árbitro
-    AgenteJugador->>AgenteArbitro: PROPOSE Movimiento
-    Note right of AgenteArbitro: Verifica si el movimiento es válido según las reglas específicas del juego
-    alt Movimiento válido
-        AgenteArbitro-->>AgenteJugador: ACCEPT-PROPOSAL Movimiento
-    else Movimiento inválido
-        AgenteArbitro-->>AgenteJugador: REJECT-PROPOSAL Movimiento
-    end
-
-
-```
-
-
-
-**AgenteDado**
-El Agente Dado es responsable de simular el lanzamiento de dados en juegos donde los movimientos se determinan en parte por el azar, como en el backgammon, parchís Co.... Este agente tiene las siguientes tareas:
-##### Tareas
--  **Lanzar los dados**: Esta tarea implica generar un número aleatorio que simula el resultado de lanzar un dado. El número generado debe estar dentro del rango válido para un dado, que normalmente es de 1 a 6.
-```mermaid
-sequenceDiagram
-    Jugador->>Dado: Solicitar lanzamiento de dados
-    Note right of Dado: Genera un número aleatorio entre 1 y 6
-    Dado-->>Jugador: Resultado del lanzamiento de dados
-```
-    
--  **Informar el resultado**: Después de lanzar los dados, el Agente Dado debe informar el resultado a los otros agentes que necesiten esta información. Esto podría implicar enviar un mensaje INFORM a los Agentes Jugador y Árbitro con el resultado del lanzamiento.
-```mermaid
-sequenceDiagram
-    Dado->>Jugador: Informar resultado de lanzamiento de dados
-    Jugador->>Arbitro: Informar resultado de lanzamiento de dados
-    Arbitro-->>Jugador: Confirmar recepción del resultado
-
-```
-
-  ## Diseño
-  En esta sección, se describirá el diseño de nuestro sistema en detalle. Esto incluirá la arquitectura del sistema, el diseño de la ontología, el diseño de los agentes y sus tareas, los protocolos de comunicación que utilizarán los agentes, las estructuras de datos que utilizaremos para representar y gestionar el estado del juego, y el diseño de la interfaz de usuario.
-
-El objetivo en esta etapa es tomar decisiones de diseño que permitan a nuestro sistema cumplir con los requisitos identificados durante la etapa de análisis de la manera más eficiente y efectiva posible. Esto incluye garantizar que nuestro sistema sea capaz de manejar una variedad de juegos de mesa, que los agentes puedan comunicarse y cooperar eficazmente para jugar los juegos, y que el estado del juego se represente y gestione de manera eficiente.
-
-A continuación, comenzaremos con la arquitectura del sistema, que describe cómo se organizarán y dividirán las tareas entre los diferentes componentes del sistema.
-### Arquitectura del sistema
-Nuestro sistema de juegos de mesa basado en agentes se compone de **cuatro** tipos de agentes: el **Agente Jugador, el Agente Tablero, el Agente Árbitro y el Agente Dado**. Cada uno de estos agentes tiene roles y responsabilidades específicas en el sistema, como se describió en la etapa de análisis.
-
-Los agentes interactúan entre sí a través de un entorno de comunicación basado en mensajes. Utilizamos **protocolos de comunicación FIPA** para estructurar estas interacciones, lo que permite a los agentes cooperar y coordinarse eficazmente para jugar los juegos.
-
-El **Agente Jugador** es el responsable de decidir los movimientos en el juego. Para hacer esto, el Agente Jugador puede necesitar consultar el estado actual del juego, que es mantenido por el Agente Tablero.
-
-El **Agente Tablero** mantiene el estado del juego y responde a las consultas de los otros agentes sobre el estado del juego. Cuando el Agente Jugador decide un movimiento, el Agente Tablero actualiza el estado del juego en consecuencia.
+- `ResultadoPartida` : Representa el resultado de la partida.
+    - `Partida` : datos de la partida que se ha completado.
+    - `Jugador` : representa al ganador de la partida. Si no hay ganador se incluirá un `Jugador`vacío, esto es, `new Jugador("",new AID())`.
 
 El **Agente Árbitro** supervisa el juego y aplica las reglas del juego. El Agente Árbitro valida los movimientos propuestos por el Agente Jugador, determina cuándo es el turno de cada jugador, y determina cuándo el juego ha terminado y quién es el ganador.
 
-### Diseño de la ontología
+
+### 2. Diseño de la ontología
+---
+En la sección anterior se han presentado todos los elementos y relaciones que se presentan en la ontología necesaria para completar los juegos propuesto. Para el diseño de la ontología se tendrá presente su implementación con las capacidades que nos proporciona la biblioteca de agentes [Jade](https://jade.tilab.com/doc/api/jade/content/package-frame.html). De esta forma se presentarán unos diagramas de clase donde se muestran las relaciones entre ellas. Se presentan dos diagramas atendiendo a los elementos:
+
+- `Concept` : Elementos que representan la información necesaria para representar los diferentes tipos de juegos de la ontología.
+- `AgentAction` : Elementos que representas los eventos a los que responden los agentes para completar los juegos de la ontología.
+
+2.1 Diagrama para elementos Concept
+![Concept]()
+
+2.2 Diagrama para elementos AgenteAction
+![Concept]()
+
   Nuestra ontología de dominio común incluye los siguientes conceptos:
 #### Clases
 
