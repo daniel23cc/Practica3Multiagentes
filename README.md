@@ -198,10 +198,120 @@ En el diagrama se presentan los elementos de la ontología que deberán formar p
 - `IncidenciaJuego` : si la partida no finaliza de forma normal este elemento indicará el motivo
 	- ``[`CANCELADO`, `JUGADORES_INSUFICIENTES`]`` posibles valores recogidos en el vocabulario para una finalización incompleta del juego.
 
-##### 1.5 ¿Cómo obtener el resultado del juego propuesto ?
+##### 1.5 ¿Cómo generar las partidas que componen un juego ?
+
+El `AgenteArbitro` se encarga de ir generando las rondas necesarias para completar el juego. El número de rondas dependerá del atributo `Modo` del elemento `CompletarJuego`. En cada ronda se generan un número de partidas que deben ser completadas por el `AgenteTablero`.
+
+
+```mermaid
+sequenceDiagram
+
+AgenteArbitro->>AgenteTablero: Propose(CompletarJPartida)
+
+Note left of AgenteArbitro: 1 seg time-out
+
+  
+
+alt Juego ha sido acompletado
+
+AgenteTablero-->>AgenteArbitro: Accept-Propossal(Justificacion)
+
+else
+
+AgenteTablero-->>AgenteArbitro: Reject-Propossal(JuegoAceptado)
+
+Note right of AgenteTablero: Si no hay posibilidad
+
+end
+```
+
+
+##### 1.6 ¿Como completar un turno de una partida ?¿Como completar la partida?
+
+El `AgenteTablero` es el encargado de organizar los turnos que componen una partida. De esta forma lo importante es identificar los elementos de información necesarios para completar un turno de juego. Para completar la partida hay que ir generando los turnos necesarios hasta obtener un ganador o declarar un empate.
+
+Para completar un turno de juego se envía el mismo mensaje a los jugadores que tiene la partida. La información necesaria depende del tipo de juego:
+
+Turno para los juegos:
+
+**Parchís, Escalera y Backgammon**
+
+En el diagrama se presentan los elementos de la ontología que deberán formar parte del contenido del mensaje que se envía al agente. Los elementos de la ontología tendrán los siguientes atributos:
+- `TiradaDado`: estos juegos necesitan tirar uno o varios dados para calcular el movimiento
+	- `NumeroMovimientos`: cuantas casillas se podrá mover la ficha
+
+- `PedirMovimiento` : Información necesaria para completar el turno de juego.
+    - `Partida` : partida a la que corresponde el turno.
+    - `Jugador` : jugador que tiene que realizar el movimiento, **jugador activo**.
+
+- `EstadoPartida` : Información sobre posibles contingencias que pueden ocurrir durante la partida.
+    - `Partida` : partida a la que corresponde el turno.
+    - `Estado` : posibles estados en los que se puede encontrar la partida. Sus valores están definidos en el vocabulario.
+        - ``[`GANADOR` | `ABANDONO` | `SEGUIR_JUGANDO` | `FIN_PARTIDA` | `JUGADOR_NO_ACTIVO`]``
+
+- `MovimientoEntregado` : Información del movimiento que realiza el jugador activo del turno. 
+    - `Partida` : partida a la que corresponde el turno.
+    - `Movimiento` : un movimiento válido, suponemos que los jugadores juegan correctamente.
+        - `FichaJuego` : elemento abstracto que permite representar las posibles fichas de un juego.
+        - `Posicion` : localización de la ficha en el tablero.
+            - (`Fila` , `Columna`)
+
+- `FichaJuego`
+	- `Ficha Parchis y Escalera` : ficha para los juegos
+		- `Jugador` : jugador asociado a la ficha
+		- `Color` : ``[ ROJO | AZUL | VERDE | AMARILLO]`` una de las posibilidades definidas en el vocabulario de la ontología.
+	
+
+La única diferencia entre estos dos juegos es que en el parchís, el jugador puede elegir entre 4 fichas que están asociadas a él para poder hacer el movimiento, mientras que en la Escalera, el jugador solo podrá mover una única ficha.
+
+- `FichaJuego`
+	- `Ficha Backgammon` : ficha para los juegos
+		- `Jugador` : jugador asociado a la ficha
+		- `Color` : ``[ BLANCO | NEGRO]`` una de las posibilidades definidas en el vocabulario de la ontología.
 
 
 
+```mermaid
+sequenceDiagram
+
+AgenteTablero->>AgenteJugador: CFP (PedirMovimiento)
+
+Note left of AgenteTablero: 2 seg time out
+
+alt
+
+AgenteJugador-->>AgenteTablero: Refuse (EstadoPartida)
+
+Note right of AgenteJugador: Si hay abandono
+
+else
+
+AgenteJugador-->>AgenteTablero: Propose (EstadoPartida)
+
+Note right of AgenteJugador: Agente que no mueve en el turno
+
+else
+
+AgenteJugador-->>AgenteTablero: Propose (MovimientoEntregadoLinea)
+
+Note right of AgenteJugador: Agente que no mueve en el turno
+
+end
+
+alt
+
+AgenteTablero->>AgenteJugador: accept-proposal(MovimientoEntregadoLinea)
+
+Note left of AgenteTablero: Para todos los jugadores
+
+else
+
+Note right of AgenteJugador: Seguir jugando o Ganador
+
+AgenteJugador-->>AgenteTablero: inform-done(EstadoPartida)
+
+end
+```
 
 
 
