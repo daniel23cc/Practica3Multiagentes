@@ -160,9 +160,45 @@ Los otros elementos de la ontología ya han sido descritos en el punto anterior.
 ##### 1.4 ¿Cómo obtener el resultado del juego propuesto ?
 Para que el `AgenteMonitor` pueda recibir la información del resultado de los juegos que proponga a diferentes `AgenteArbitro` será necesario el siguiente intercambio de mensajes:
 
+```mermaid
+sequenceDiagram
 
+AgenteMonitor->>AgenteArbitro: Subscribe(informarResultado)
 
+Note left of AgenteMonitor: 1 seg time-out
 
+  
+
+alt
+
+AgenteArbitro-->>AgenteMonitor: Agree(Justificacion)
+
+else
+
+AgenteArbitro-->>AgenteMonitor: Inform(ClasifiacionJuego | IncidenciaJuego)
+
+Note right of AgenteArbitro: Si no hay posibilidad
+
+end
+```
+
+En el diagrama se presentan los elementos de la ontología que deberán formar parte del contenido del mensaje que se envía al agente. Los elementos de la ontología tendrán los siguientes atributos:
+
+- `InformarResultado` : Representa la información del agente que quiere recibir la información del resultado del juego
+	- `AgenteJugador` : representa al agente especializado que desea recibir la información. Es un concepto abstracto que permite representar a los agentes especializados y así poder extender la ontología para atender la posibilidad que se añadan más agentes especializados.
+
+- `SubInform` : Elemento abstracto para representar las posibilidades de información que puede recibir el agente especializado. En este caso los valores pueden ser:
+	-  ``[`ClasificacionJuego` | `IncidenciaJuego` ]`` contempla las posibilidades de finalización de un juego.
+
+- `ClasificacionJuego` : Si el juego ha finalizado correctamente se envía la información relativa a la clasificación del juego con los jugadores implicados.
+	- `Juego` : representa el juego que ha finalizado.
+	- `ListaJugadores` : colección de elementos `Jugador` que han participado en el juego ordenados desde el campeón en adelante.
+	- `ListaPuntuacion` : colección con los puntos obtenidos por cada uno de los jugadores de la lista anterior. 
+
+- `IncidenciaJuego` : si la partida no finaliza de forma normal este elemento indicará el motivo
+	- ``[`CANCELADO`, `JUGADORES_INSUFICIENTES`]`` posibles valores recogidos en el vocabulario para una finalización incompleta del juego.
+
+##### 1.5 ¿Cómo obtener el resultado del juego propuesto ?
 
 
 
