@@ -442,10 +442,10 @@ En la sección anterior se han presentado todos los elementos y relaciones que s
 - `AgentAction` : Elementos que representas los eventos a los que responden los agentes para completar los juegos de la ontología.
 
 2.1 Diagrama para elementos Concept
-![Concept]()
+![Concept](http://suleiman.ujaen.es:8011/dcc00058/losconvocatoriasplusplus/-/blob/develop_jai00005/assets/diagramaConcep.png)
 
 2.2 Diagrama para elementos AgenteAction
-![Concept]()
+![Concept](http://suleiman.ujaen.es:8011/dcc00058/losconvocatoriasplusplus/-/blob/develop_jai00005/assets/diagramaAction.png)
 
   Nuestra ontología de dominio común incluye los siguientes conceptos:
 #### Clases
