@@ -124,6 +124,51 @@ TIPO_JUEGO_NO_IMPLEMENTADO | DEMASIADOS_JUEGOS_SIN_COMPLETAR | SUPERADO_LIMITE_P
 
 ##### 1.3 ¿Cómo debe completarse un juego ?
 
+Cuando el `AgenteMonitor` ha localizado jugadores que están dispuestos a participar en un juego hay que localizar a un `AgenteÁrbitro` que se encargue de generar las partidas necesarias para completar ese juego.
+
+```mermaid
+sequenceDiagram
+
+AgenteMonitor->>AgenteArbitro: Propose(CompletarJuego)
+
+Note left of AgenteMonitor: 1 seg time-out
+
+  
+
+alt Aceptado organizar juego
+
+AgenteArbitro-->>AgenteMonitor: Accept-Propossal(Justificacion)
+
+else
+
+AgenteArbitro-->>AgenteMonitor: Reject-Propossal(JuegoAceptado)
+
+Note right of AgenteArbitro: Si no hay posibilidad
+
+end
+```
+En el diagrama se presentan los elementos de la ontología que deberán formar parte del contenido del mensaje que se envía al agente. Los elementos de la ontología tendrán los siguientes atributos:
+
+- `CompletarJuego` : Tiene la información necesaria para generar las partidas individuales que permitan completar el juego propuesto.
+    - `Juego` : juego que se debe completar.
+    - `Modo` : ``[`UNICO` | `ELIMINATORIA` | `TORNEO`]`` desarrollo del juego. Esto determina en el número de partidas que deberá completar cada jugador en el juego.
+    - `InfoJuego` : es un concepto abstracto que permite representar los datos necesarios de un juego. De esta forma se extender la ontología con nuevos tipos de juegos.
+    - `ListaJugadores` : es una colección de elementos `Jugador`, y al menos deben ser dos, que participarán en las partidas que definen el juego.
+
+Los otros elementos de la ontología ya han sido descritos en el punto anterior.
+
+##### 1.4 ¿Cómo obtener el resultado del juego propuesto ?
+Para que el `AgenteMonitor` pueda recibir la información del resultado de los juegos que proponga a diferentes `AgenteArbitro` será necesario el siguiente intercambio de mensajes:
+
+
+
+
+
+
+
+
+
+
 
 #### AgenteJugador
 Este agente representa a un jugador en el juego. Su tarea principal es decidir qué movimientos hacer en función del estado del juego. Este agente debería ser lo suficientemente flexible como para poder jugar a cualquier juego de tablero, no solo al Juego de la Escalera o al Parchís.
