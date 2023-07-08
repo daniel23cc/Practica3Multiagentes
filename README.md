@@ -60,13 +60,70 @@ Hay un agente especializado que será el encargado en localizar a todos los agen
 
 Las tareas de los agentes serán diseñadas por cada uno de los alumnos. Los agentes tienen unos parámetros y unos objetivos que deben alcanzar antes de finalizar.
 
-##### 2. ¿Cómo proponer a los diferentes jugadores que participen en un juego?
+##### 1.2 ¿Cómo proponer a los diferentes jugadores que participen en un juego?
 
-Todos los agentes:
+El `AgenteMonitor` propondrá un juego, de alguno de los tipos que conoce, a los `AgenteJugador` para ese tipo de juego. El juego debe identificarse de forma unívoca y los jugadores pueden tomar su decisión para participar en el juego atendiendo a su estado actual.
+
+```mermaid
+sequenceDiagram
+
+AgenteMonitor->>AgenteJugador: Propose(ProponerJuego)
+
+Note left of AgenteMonitor: 1 seg time-out
 
   
 
-- Deben ser robustos y dar soluciones a las posibles incidencias en la ejecución.
+alt Juego ha sido aceptado
+
+AgenteJugador-->>AgenteMonitor: Accept-Propossal(JuegoAceptado)
+
+else 
+
+AgenteJugador-->>AgenteMonitor: Reject-Propossal(Justificacion)
+
+Note right of AgenteJugador: Si no quiere jugar
+
+end
+```
+
+En el diagrama se presentan los elementos de la ontología que deberán formar parte del contenido del mensaje que se envía al agente. Los elementos de la ontología tendrán los siguientes atributos:
+
+- `ProponerJuego` : Tiene la información necesaria para que los agentes puedan tomar su decisión
+	- `Juego` : representa al juego en el que debe participar el jugador.
+		- `idJuego` : identificará de forma unívoca el juego.
+		- `TipoJuego` : ``[`BackGammon` | `Parchis` | `Escalera` | `Gatos y raton`]`` uno de los tipos de juego disponibles en la ontología.
+	- `Modo` : ``[`UNICO` | `ELIMINATORIA` | `TORNEO`]`` desarrollo del juego. Esto determina en el número de partidas que deberá completar cada jugador en el juego.
+	
+	 - `InfoJuego` : es un concepto abstracto que permite representar los datos necesarios de un juego. De esta forma se extender la ontología con nuevos tipos de juegos.
+		- `BackGammon` : los atributos necesarios para el juego del BackGammon.
+			- `Tablero` : dimensiones del tablero para un juego de BackGammon, que seria el numero de casillas .
+		- `Parchis` : los atributos necesarios para el juego Parchís.
+			- `Tablero` : dimensiones del tablero para un juego de Parchís, que seria el número de casillas.
+			- `numJugadores` : número de jugadores para el juego.
+		- `Escalera` : los atributos necesarios para el juego Escalera.
+			- `Tablero` : dimensiones del tablero para un juego Escalera.
+			- `numJugadores` : número de jugadores para el juego.
+			- `numEscaleras`: numero de escaleras para el juego
+			- `numSerpientes`: numero de serpientes
+		- `Gatos y raton` : los atributos necesarios para un juego Gatos y ratón 
+			- `Tablero` : dimensiones del tablero para un juego Escalera.
+
+- `Justificacion` : Es un elemento del vocabulario y contendrá las posibilidades que dispone el agente para indicar el rechazo para participar en el juego.
+	-  `Juego` : representa el juego en el que no se desea participar.
+	- `Motivo` : justificación para no participar en el juego. Los posibles motivos estarán recogidos en el vocabulario:
+
+```
+JUEGOS_ACTIVOS_SUPERADOS | PARTICIPACION_EN_JUEGOS_SUPERADA | 
+TIPO_JUEGO_NO_IMPLEMENTADO | DEMASIADOS_JUEGOS_SIN_COMPLETAR | SUPERADO_LIMITE_PARTIDAS 
+| SUBSCRIPCION_ACEPTADA | ERROR_SUBSCRIPCION | ERROR_CANCELACION | ONTOLOGIA_DESCONOCIDA
+```
+
+- `JuegoAceptado` : Permite al agente indicar que desea participar en el juego. Ya sea como jugador u organizador.
+	- `Juego` : representa el juego en el que desea participar el agente. 
+	- `AgenteJugador` : representa al agente especializado que desea participar en el juego. Es un concepto abstracto que permite representar a los agentes especializados y así poder extender la ontología para atender la posibilidad que se añadan más agentes especializados.
+
+##### 1.3 ¿Cómo debe completarse un juego ?
+
 
 #### AgenteJugador
 Este agente representa a un jugador en el juego. Su tarea principal es decidir qué movimientos hacer en función del estado del juego. Este agente debería ser lo suficientemente flexible como para poder jugar a cualquier juego de tablero, no solo al Juego de la Escalera o al Parchís.
