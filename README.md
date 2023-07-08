@@ -1,21 +1,66 @@
 
   
 
-# Práctica 4 Ontologías
+# Práctica 4 . Ontologías Juegos de mesa
 
   
 ## Objetivo
-Esta práctica de la asignatura de Sistemas Multiagente tiene como objetivo una primera toma de contacto con las ontologías y su aplicación práctica en juegos reales. 
-En este caso se va a detallar una ontología que común que pueda ser utilizada para el parchís y para el juego de la escalera así como más juegos de tablero
+Esta práctica de la asignatura de Sistemas Multiagente tiene como objetivo una primera toma de contacto con el analisis de las ontologías y su aplicación práctica en juegos de tablero reales. 
+El diseño de las ontologías estará pensado para resolver las necesidades de comunicación de los agentes implicados en las prácticas. Estos agentes estarán diseñados para responder a los eventos necesarios para:
 
- 
-  
+- Localizar a los agentes especializados:
+    
+    - Agentes que se encargan de completar los juegos y presentar una representación del juego.
+    - Agentes organizadores que distribuyen los juegos para que los agentes especializados en el juego puedan completarlo.
+    - Agentes jugadores para uno o varios juegos. Los agentes que se diseñen para los diferentes juegos se suponen que juegan correctamente, es decir, no tienen la posibilidad para _hacer trampa_.
+    
+- Realizar las tareas necesarias para los diferentes juegos:
 
+    - Recopilar a los agentes jugadores que estén dispuestos a jugar una partida o un torneo.
+    - Completar los turnos necesarios para una partida individual entre dos agentes jugadores.
+    - Comunicar el resultado de las diferentes partidas.
   
-## Análisis
-### Agentes para la práctica
+En nuestro caso, vamos a diseñar las ontologías para los siguientes juegos: 
+1. BackGammon
+2. Parchis
+3. Escalera
+4. Gatos y raton
+
+Como el diseño de las ontologías estará enfocado en resolver las necesidades de comunicación entre los agentes se incluirán los diagramas UML para los diferentes protocolos de comunicación entre **agentes-FIPA** que las resuelven.
+  
+## 1. Análisis de la ontología
+---
+Nuestra ontología debe responder apropiadamente a las siguientes preguntas:
+
+1. ¿Cómo diferenciar a los diferentes agentes especializados?
+2. ¿Cómo proponer a los diferentes jugadores que participen en un juego?
+3. ¿Cómo debe completarse un juego ?
+4. ¿Cómo obtener el resultado del juego propuesto?
+5. ¿Cómo generar las partidas que componen un juego?
+6. ¿Cómo completar un turno de una partida? ¿Cómo completar la partida?
+7. ¿Cómo informar del resultado final de la partida?
+
+Estas preguntas van a necesitar que se intercambie información entre los agentes de la plataforma. Para resolver las diferentes preguntas se presentan los diagramas UML para la secuencia de mensajes que deben intercambiarse entre los agentes implicados.
+
+##### 1.1 ¿Cómo diferenciar a los diferentes agentes especializados?
+Para resolver esta pregunta utilizaremos la utilidad del servicio de páginas amarillas que nos proporciona la plataforma de **agentes-FIPA**. De esta forma no será necesario tener elementos en la ontología para poder resolver el problema de comunicación pero sí será necesario un elemento en el vocabulario para que los agentes puedan subscribirse en el servicio de páginas amarillas de forma homogénea:
+
+`TipoServicio` : Los agentes especializados tendrán asociado un tipo de servicio y utilizan este elemento del vocabulario. Los agentes especializados serán:
+
+- `JUGADOR` : Representa el tipo de servicio para cualquier agente jugador de alguno de los tipos de juegos representados en la ontología.
+- `TABLERO` : Representa el tipo de servicio que mantiene el estado del juego y responde a las consultas de los otros agentes sobre el estado del juego. 
+- `ARBRITO` : Representa el tipo de servicio que proporcionan los agentes que se encargarán de la organización de las partidas que representan un juego. Supervisa el juego y aplica las reglas del juego. 
+
+`TipoJuego` : Representa a los tipos de juegos representados en la ontología y que formará parte del nombre del servicio del agente y también forma parte del vocabulario.
+
+- ``[`BackGammon` | `Parchis` | `Escalera` | `Gatos y raton`]`` 
+
+Hay un agente especializado que será el encargado en localizar a todos los agentes especializados. Este agente es `AgenteMonitor` y que deberá conocer todos los elementos de la ontología y será desarrollado por el profesor de la asignatura.
+
 
 Las tareas de los agentes serán diseñadas por cada uno de los alumnos. Los agentes tienen unos parámetros y unos objetivos que deben alcanzar antes de finalizar.
+
+##### 2. ¿Cómo proponer a los diferentes jugadores que participen en un juego?
 
 Todos los agentes:
 
