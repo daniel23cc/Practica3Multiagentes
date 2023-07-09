@@ -448,10 +448,10 @@ En la sección anterior se han presentado todos los elementos y relaciones que s
 
 #### 2.1 Diagrama para elementos Concept
 
-![](http://suleiman.ujaen.es:8011/dcc00058/losconvocatoriasplusplus/-/blob/develop_jai00005/assets/diagramaConcep.png)
+![Concepto](http://suleiman.ujaen.es:8011/dcc00058/losconvocatoriasplusplus/-/blob/develop_jai00005/assets/diagramaConcep.png)
 
 #### 2.2 Diagrama para elementos AgenteAction
-![Concept](http://suleiman.ujaen.es:8011/dcc00058/losconvocatoriasplusplus/-/blob/develop_jai00005/assets/diagramaAction.png)
+![Action](http://suleiman.ujaen.es:8011/dcc00058/losconvocatoriasplusplus/-/blob/develop_jai00005/assets/diagramaAction.png)
 
 #### 2.4 Tarea para la comunicación
 Como la ontología está diseñada para resolver los problemas de comunicación entre los agentes implicados en los juegos se especificarán los **protocolos FIPA** que se utilizarán.
