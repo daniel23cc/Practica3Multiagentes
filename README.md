@@ -234,7 +234,7 @@ Para completar un turno de juego se envía el mismo mensaje a los jugadores que 
 
 Turno para los juegos:
 
-**Parchís, Escalera y Backgammon**
+**Parchís y Backgammon**
 
 ```mermaid
 sequenceDiagram
@@ -297,22 +297,21 @@ En el diagrama se presentan los elementos de la ontología que deberán formar p
     - `Movimiento` : un movimiento válido, suponemos que los jugadores juegan correctamente.
         - `FichaJuego` : elemento abstracto que permite representar las posibles fichas de un juego.
         - `Posicion` : localización de la ficha en el tablero.
-            - (`Fila` , `Columna`)
+            - `Numero_casilla`: numero de casilla en el array de casillas
 
-- `FichaJuego`
-	- `Ficha Parchis y Escalera` : ficha para los juegos
+- `FichaJuego` 
+	- `Ficha_Parchis` : ficha para los juegos
 		- `Jugador` : jugador asociado a la ficha
-		- `Color` : ``[ ROJO | AZUL | VERDE | AMARILLO]`` una de las posibilidades definidas en el vocabulario de la ontología.
+		- `Color` : ``[ ROJO | AZUL | VERDE | AMARILLO ]`` una de las posibilidades definidas en el vocabulario de la ontología.
+	- `Ficha_Backgammon` : ficha para los juegos
+		- `Jugador` : jugador asociado a la ficha
+		- `Color` : ``[ NEGRO | BLANCO]`` una de las posibilidades definidas en el vocabulario de la ontología.
+	
 	
 
-La única diferencia entre estos dos juegos es que en el parchís, el jugador puede elegir entre 4 fichas que están asociadas a él para poder hacer el movimiento, mientras que en la Escalera, el jugador solo podrá mover una única ficha.
 
-- `FichaJuego`
-	- `Ficha Backgammon` : ficha para los juegos
-		- `Jugador` : jugador asociado a la ficha
-		- `Color` : ``[ BLANCO | NEGRO]`` una de las posibilidades definidas en el vocabulario de la ontología.
 
-**Gatos y ratón**
+**Gatos y ratón  y Escalera :**
 
 ```mermaid
 sequenceDiagram
@@ -358,6 +357,9 @@ end
 
 En el diagrama se presentan los elementos de la ontología que deberán formar parte del contenido del mensaje que se envía al agente. Los elementos de la ontología tendrán los siguientes atributos:
 
+- `TiradaDado_Escalera`: estos juegos necesitan tirar uno o varios dados para calcular el movimiento
+	- `NumeroMovimientos`: cuantas casillas se podrá mover la ficha
+
 - `PedirMovimiento` : Información necesaria para completar el turno de juego.
     - `Partida` : partida a la que corresponde el turno.
     - `Jugador` : jugador que tiene que realizar el movimiento, **jugador activo**.
@@ -374,10 +376,13 @@ En el diagrama se presentan los elementos de la ontología que deberán formar p
         - `Posicion` : localización de la ficha en el tablero.
             - (`Fila` , `Columna`)
 
-- `FichaJuego`
-	- `Ficha Parchis y Escalera` : ficha para los juegos
+- `FichaJuego` 
+	- `Ficha_Escalera` : ficha para los juegos
 		- `Jugador` : jugador asociado a la ficha
-		- `Color` : ``[ BLANCO | NEGRO]`` una de las posibilidades definidas en el vocabulario de la ontología.
+		- `Color` : ``[ ROJO | AZUL | VERDE | AMARILLO ]`` una de las posibilidades definidas en el vocabulario de la ontología.
+	- `Ficha_GatosyRaton` : ficha para los juegos
+		- `Jugador` : jugador asociado a la ficha
+		- `Color` : ``[ NEGRO | BLANCO]`` una de las posibilidades definidas en el vocabulario de la ontología.
 	
 
 ##### 1.7 ¿Como informar del resultado de la partida?
@@ -441,134 +446,261 @@ En la sección anterior se han presentado todos los elementos y relaciones que s
 - `Concept` : Elementos que representan la información necesaria para representar los diferentes tipos de juegos de la ontología.
 - `AgentAction` : Elementos que representas los eventos a los que responden los agentes para completar los juegos de la ontología.
 
-2.1 Diagrama para elementos Concept
-![Concept](http://suleiman.ujaen.es:8011/dcc00058/losconvocatoriasplusplus/-/blob/develop_jai00005/assets/diagramaConcep.png)
+#### 2.1 Diagrama para elementos Concept
 
-2.2 Diagrama para elementos AgenteAction
+![](http://suleiman.ujaen.es:8011/dcc00058/losconvocatoriasplusplus/-/blob/develop_jai00005/assets/diagramaConcep.png)
+
+#### 2.2 Diagrama para elementos AgenteAction
 ![Concept](http://suleiman.ujaen.es:8011/dcc00058/losconvocatoriasplusplus/-/blob/develop_jai00005/assets/diagramaAction.png)
 
-  Nuestra ontología de dominio común incluye los siguientes conceptos:
-#### Clases
+#### 2.4 Tarea para la comunicación
+Como la ontología está diseñada para resolver los problemas de comunicación entre los agentes implicados en los juegos se especificarán los **protocolos FIPA** que se utilizarán.
 
--   **Jugador**: Representa a un jugador en el juego. Cada jugador es un agente en nuestro sistema.
-    
--   **Movimiento**: Representa un movimiento que un jugador puede hacer en el juego. Un movimiento implica mover una ficha de una posición a otra en el tablero.
-    
--   **Tablero**: Representa el tablero del juego. El tablero tiene una serie de posiciones donde las fichas pueden ser colocadas.
-    
--   **Ficha**: Representa una ficha que un jugador puede mover en el tablero.
-    
--   **Posición**: Representa una posición en el tablero. Cada posición puede estar ocupada por una ficha o estar vacía.
-#### Relaciones de la ontología
--   **PerteneceA**: Esta relación conecta una ficha con el jugador al que pertenece. Cada ficha en el juego es propiedad de un jugador específico, y esta relación permite a los agentes saber a quién pertenece cada ficha.
-    
--   **UbicadaEn**: Esta relación conecta una ficha con la posición del tablero en la que se encuentra. Cada ficha en el juego se encuentra en una posición específica en el tablero, y esta relación permite a los agentes saber dónde está cada ficha.
-    
--   **SiguientePosición**: Esta relación conecta una posición del tablero con la siguiente posición en el camino del juego. Esta relación es crucial para entender cómo se mueven las fichas a lo largo del tablero.
-    
--   **TieneTurno**: Esta relación conecta un jugador con el estado del juego para indicar quién tiene el turno actual. Esta relación permite a los agentes saber quién debe hacer el próximo movimiento.
+---
+**Protocolo FIPA-Propose**:
 
-#### Restricciones de la ontología
--  **Restricción de propiedad única**: Cada ficha pertenece a un único jugador y está en una única posición en el tablero en un momento dado. Esto significa que la relación "PerteneceA" y "UbicadaEn" solo puede tener un valor para cada ficha en un momento dado.
-    
--  **Restricción de propiedad obligatoria**: Cada ficha debe pertenecer a un jugador y debe estar en alguna posición del tablero. Esto significa que cada ficha debe tener un valor para las relaciones "PerteneceA" y "UbicadaEn".
-    
-- **Restricción de cardinalidad**: Cada jugador puede tener un número limitado de fichas. Por ejemplo, en el Parchís, cada jugador tiene exactamente 4 fichas.
-    
--  **Restricciones de juego específicas**: 
-	- Parchís
-		-  **Movimiento de salida**: Una ficha solo puede salir de su casa si el jugador saca un 5 en el dado.
-    
-		-  **Movimiento de barrera**: Dos fichas del mismo jugador en la misma casilla forman una barrera que no puede ser pasada por fichas de otros jugadores.
-    
-		- **Movimiento de captura**: Si una ficha cae en una casilla ocupada por una ficha de otro jugador, la ficha del otro jugador es capturada y vuelve a su casa.
-    
-		-  **Movimiento de entrada a meta**: Una ficha solo puede entrar a la meta con una tirada de dado exacta.
-	- Juego escalera
-		-   **Movimiento de escalera**: Si una ficha cae en una casilla con el inicio de una escalera, debe moverse a la casilla en el otro extremo de la escalera.
-    
-		- **Movimiento de serpiente**: Si una ficha cae en una casilla con la cola de una serpiente, debe moverse a la casilla en el otro extremo de la serpiente.
-    
-		- **Movimiento de ganar**: Un jugador gana el juego cuando su ficha llega a la última casilla del tablero.
-#### Instancias de la ontología
--  **Instancias de Jugador**: Cada jugador individual en un juego sería una instancia de la clase Jugador. 
-	- ##### Parchís
-		- En el Parchís, normalmente juegan cuatro jugadores, por lo que tendrías cuatro instancias de la clase Jugador.
-	- ##### Juego escalera
-		-  	En el juego de la Escalera, normalmente juegan dos jugadores, por lo que tendrías dos instancias de la clase Jugador.
-    
--  **Instancias de Ficha**: Cada ficha individual en un juego sería una instancia de la clase Ficha. 
-	- ##### Parchís
-		- Cada jugador en el Parchís tiene cuatro fichas, por lo que tendrías un total de 16 instancias de la clase Ficha.
-	- ##### Juego escalera
-		-  	Cada jugador en el juego de la Escalera tiene una ficha, por lo que tendrías un total de dos instancias de la clase Ficha.
--  **Instancias de Posición**: Cada casilla individual en el tablero sería una instancia de la clase Posición. 
-	- ##### Parchís
-		- El tablero de Parchís tiene 68 posiciones en total (contando las casillas de seguridad y las casillas de meta), por lo que tendrías 68 instancias de la clase Posición.
-	- ##### Juego escalera
-		-  	El tablero del juego de la Escalera tiene 100 casillas, por lo que tendrías 100 instancias de la clase Posición
-    
--  **Instancias de Juego**: Cada juego individual que se juega sería una instancia de la clase Juego.
-	- ##### Parchís
-		- Cada partida de Parchís que juegues sería una instancia de la clase Juego.
-	- ##### Juego escalera
-		-  	Cada partida del juego de la Escalera que juegues sería una instancia de la clase Juego.
-#### Axiomas
--  **Axioma de propiedad**: Cada ficha en el juego es propiedad de un jugador específico. Esto significa que la relación "PerteneceA" siempre debe tener un valor para cada ficha.
-    
--  **Axioma de ubicación**: Cada ficha en el juego se encuentra en una posición específica en el tablero. Esto significa que la relación "UbicadaEn" siempre debe tener un valor para cada ficha.
-    
--  **Axioma de turno**: En cualquier momento del juego, solo un jugador tiene el turno. Esto significa que la relación "TieneTurno" solo puede tener un valor en cualquier momento dado.
-    
--  **Axioma de victoria**: Un jugador gana el juego cuando todas sus fichas han llegado a la meta (en el caso del Parchís) o cuando su ficha ha llegado a la última casilla del tablero (en el caso del juego de la Escalera).
+Localizar jugadores para un juego:
 
-#### Funciones de la ontología
--  **Función de movimiento**: Esta función tomaría una ficha y una posición como entrada y movería la ficha a la posición dada. Esta función sería útil para actualizar el estado del juego después de que un jugador haga un movimiento.
-```
-Función MoverFicha(ficha, posición):
-    Si la posición es válida para la ficha según las reglas del juego:
-        Actualizar la relación "UbicadaEn" de la ficha para que apunte a la nueva posición
-    Si no:
-        Devolver un error indicando que el movimiento no es válido
-Fin de la función
+```mermaid
+sequenceDiagram
 
-```
-    
--  **Función de verificación de movimiento**: Esta función tomaría una ficha y una posición como entrada y verificaría si el movimiento propuesto es válido de acuerdo con las reglas del juego. Esta función sería útil para el Agente Árbitro al validar los movimientos propuestos.
- ```
-Función VerificarMovimiento(ficha, posición):
-    Si la posición es una casilla válida en el tablero:
-        Si la posición está vacía o el movimiento a esa posición es permitido por las reglas del juego:
-            Devolver Verdadero
-        Fin Si
-    Fin Si
-    Devolver Falso
-Fin de la Función
-```
-    
--  **Función de conteo de fichas**: Esta función tomaría un jugador como entrada y devolvería el número de fichas que el jugador tiene en el tablero. Esta función sería útil para determinar el progreso de un jugador en el juego.
-```
-Función ContarFichas(jugador):
-    Contador = 0
-    Para cada ficha en el conjunto de todas las fichas:
-        Si la ficha pertenece al jugador:
-            Incrementar el Contador en 1
-        Fin Si
-    Fin Para
-    Devolver Contador
-Fin de la Función
+AgenteMonitor->>AgenteJugador: Propose(ProponerJuego)
 
-```
-    
--  **Función de determinación de ganador**: Esta función revisaría el estado del juego y determinaría si algún jugador ha ganado el juego. Esta función sería útil para el Agente Árbitro al determinar el fin del juego.
-```
-Función DeterminarGanador():
-    Para cada jugador en el conjunto de todos los jugadores:
-        Si todas las fichas del jugador han llegado a la meta (o cumplen la condición de victoria del juego):
-            Devolver jugador
-        Fin Si
-    Fin Para
-    Devolver Ninguno
-Fin de la Función
+Note left of AgenteMonitor: 1 seg time-out
 
+  
+
+alt Juego ha sido aceptado
+
+AgenteJugador-->>AgenteMonitor: Accept-Propossal(JuegoAceptado)
+
+else 
+
+AgenteJugador-->>AgenteMonitor: Reject-Propossal(Justificacion)
+
+Note right of AgenteJugador: Si no quiere jugar
+
+end
 ```
+
+
+Crear un juego con los jugadores que aceptaron:
+
+```mermaid
+sequenceDiagram
+
+AgenteMonitor->>AgenteJugador: Propose(CompletarJuego)
+
+Note left of AgenteMonitor: 1 seg time-out
+
+  
+
+alt Juego ha sido aceptado
+
+AgenteJugador-->>AgenteMonitor: Accept-Propossal(JuegoAceptado)
+
+else 
+
+AgenteJugador-->>AgenteMonitor: Reject-Propossal(Justificacion)
+
+Note right of AgenteJugador: Si no hay posibilidad
+
+end
+```
+
+Completar una partida con los jugadores: 
+
+```mermaid
+sequenceDiagram
+
+AgenteMonitor->>AgenteJugador: Propose(CompletarPartida)
+
+Note left of AgenteMonitor: 1 seg time-out
+
+  
+
+alt Juego ha sido aceptado
+
+AgenteJugador-->>AgenteMonitor: Accept-Propossal(JuegoAceptado)
+
+else 
+
+AgenteJugador-->>AgenteMonitor: Reject-Propossal(Justificacion)
+
+Note right of AgenteJugador: Si no hay posibilidad
+
+end
+```
+---
+**Protocolo FIPA-ContracNet** :
+
+Tuno para los juegos Backgammon, Parchis y Escalera:
+
+```mermaid
+sequenceDiagram
+
+AgenteTablero->>AgenteJugador: CFP (PedirMovimiento)
+
+Note left of AgenteTablero: 2 seg time out
+
+alt
+
+AgenteJugador-->>AgenteTablero: Refuse (EstadoPartida)
+
+Note right of AgenteJugador: Si hay abandono
+
+else
+
+AgenteJugador-->>AgenteTablero: Propose (EstadoPartida)
+
+Note right of AgenteJugador: Agente que no mueve en el turno
+
+else
+
+AgenteJugador-->>AgenteTablero: Propose (MovimientoEntregadoLinea)
+
+Note right of AgenteJugador: Agente que no mueve en el turno
+
+end
+
+alt
+
+AgenteTablero->>AgenteJugador: accept-proposal(MovimientoEntregadoLinea)
+
+Note left of AgenteTablero: Para todos los jugadores
+
+else
+
+Note right of AgenteJugador: Seguir jugando o Ganador
+
+AgenteJugador-->>AgenteTablero: inform-done(EstadoPartida)
+
+end
+```
+
+Turno para el juego Gatos y ratón: 
+
+```mermaid
+sequenceDiagram
+
+AgenteTablero->>AgenteJugador: CFP (PedirMovimiento)
+
+Note left of AgenteTablero: 2 seg time out
+
+alt
+
+AgenteJugador-->>AgenteTablero: Refuse (EstadoPartida)
+
+Note right of AgenteJugador: Si hay abandono
+
+else
+
+AgenteJugador-->>AgenteTablero: Propose (EstadoPartida)
+
+Note right of AgenteJugador: Agente que no mueve en el turno
+
+else
+
+AgenteJugador-->>AgenteTablero: Propose (MovimientoEntregadoLinea)
+
+Note right of AgenteJugador: Agente que no mueve en el turno
+
+end
+
+alt
+
+AgenteTablero->>AgenteJugador: accept-proposal(MovimientoEntregadoLinea)
+
+Note left of AgenteTablero: Para todos los jugadores
+
+else
+
+Note right of AgenteJugador: Seguir jugando o Ganador
+
+AgenteJugador-->>AgenteTablero: inform-done(EstadoPartida)
+
+end
+```
+
+---
+**Protocolo FIPA-Subscribe**:
+
+Obtener la clasificacion de un juego que se haya completado:
+
+```mermaid
+sequenceDiagram
+
+AgenteMonitor->>AgenteArbitro: Subscribe(informarResultado)
+
+Note left of AgenteMonitor: 1 seg time-out
+
+  
+
+alt
+
+AgenteArbitro-->>AgenteMonitor: Agree(Justificacion)
+
+else
+
+AgenteArbitro-->>AgenteMonitor: Inform(ClasifiacionJuego | IncidenciaJuego)
+
+Note right of AgenteArbitro: Si no hay posibilidad
+
+end
+```
+
+Obtener el ganador de una partida:
+
+```mermaid
+sequenceDiagram
+
+AgenteArbitro->>AgenteTablero: Subscribe(informarResultado)
+
+Note left of AgenteTablero: 1 seg time out
+
+AgenteJugador->>AgenteTablero: Subscribe(informarResultado)
+
+Note left of AgenteTablero: 1 seg time out
+
+  
+
+AgenteTablero-->>AgenteArbitro: Agree(justificacion)
+
+Note right of AgenteTablero: Confirma que se ha realizado la subscripcion
+
+  
+
+AgenteTablero-->>AgenteJugador: Agree (Justificacion)
+
+Note right of AgenteTablero: Confirma que se ha realizado la subscripcion
+
+  
+
+AgenteTablero-->>AgenteArbitro: Inform (ResultadoPArtida | Incidenciajuego)
+
+Note right of AgenteTablero: Se informará en otra tarea
+
+  
+
+  
+
+AgenteTablero-->>AgenteJugador: Inform (ResultadoPartida | IncidenciaJuego)
+
+Note right of AgenteTablero: Se informará en otra tarea
+```
+
+---
+#### 2.5 Axiomas de la ontología
+
+No tendrán una representación en la implementación de la ontología pero sí debemos tenerlos en cuenta para una correcta utilización de la misma:
+
+Para Escalera y Gatos y ratón:
+- Origen de coordenadas para definir las posiciones en el tablero. La `Posicion(0,0)` estará localizada en la esquina superior izquierda del tablero de juego.
+- Cuando se generan las posiciones del tablero:
+    - La coordenada `X` : representa la fila del tablero.
+    - La coordenada `Y` : representa la columna del tablero.
+
+Para Backgammon  y Parchis:
+- Las posiciones iran de 0 a n. Cada tipo de jugador empezará en una casilla diferente, y tendrá que llegar a otra diferente, pero siempre teniendo que sortear el mismo numero de casillas, aunque no sean las mimas. 
+
+
