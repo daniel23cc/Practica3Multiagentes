@@ -58,7 +58,7 @@ Para resolver esta pregunta utilizaremos la utilidad del servicio de páginas am
 Hay un agente especializado que será el encargado en localizar a todos los agentes especializados. Este agente es `AgenteMonitor` y que deberá conocer todos los elementos de la ontología y será desarrollado por el profesor de la asignatura.
 
 
-Las tareas de los agentes serán diseñadas por cada uno de los alumnos. Los agentes tienen unos parámetros y unos objetivos que deben alcanzar antes de finalizar.
+Los agentes tienen unos parámetros y unos objetivos que deben alcanzar antes de finalizar.
 
 ##### 1.2 ¿Cómo proponer a los diferentes jugadores que participen en un juego?
 
