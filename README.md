@@ -518,40 +518,32 @@ end
 ---
 **Protocolo FIPA-ContracNet** :
 
-Tuno para los juegos Backgammon, Parchis y Escalera:
+Tuno para los juegos Backgammon y Parchis:
 
 ```mermaid
 sequenceDiagram
 
 AgenteTablero->>AgenteJugador: CFP (PedirMovimiento)
 
-Note left of AgenteTablero: 2 seg time out
+Note left of AgenteTablero: Para todos los jugadores
 
 alt
 
 AgenteJugador-->>AgenteTablero: Refuse (EstadoPartida)
 
-Note right of AgenteJugador: Si hay abandono
-
-else
-
-AgenteJugador-->>AgenteTablero: Propose (EstadoPartida)
-
-Note right of AgenteJugador: Agente que no mueve en el turno
+Note right of AgenteJugador: Si hay abandono o agente que no mueve este turno
 
 else
 
 AgenteJugador-->>AgenteTablero: Propose (MovimientoEntregadoLinea)
 
-Note right of AgenteJugador: Agente que no mueve en el turno
+Note right of AgenteJugador: Agente que si mueve en el turno
 
 end
 
 alt
 
 AgenteTablero->>AgenteJugador: accept-proposal(MovimientoEntregadoLinea)
-
-Note left of AgenteTablero: Para todos los jugadores
 
 else
 
@@ -562,40 +554,32 @@ AgenteJugador-->>AgenteTablero: inform-done(EstadoPartida)
 end
 ```
 
-Turno para el juego Gatos y ratón: 
+Turno para el juego Gatos y ratón y Escalera: 
 
 ```mermaid
 sequenceDiagram
 
 AgenteTablero->>AgenteJugador: CFP (PedirMovimiento)
 
-Note left of AgenteTablero: 2 seg time out
+Note left of AgenteTablero: Para todos los jugadores
 
 alt
 
 AgenteJugador-->>AgenteTablero: Refuse (EstadoPartida)
 
-Note right of AgenteJugador: Si hay abandono
-
-else
-
-AgenteJugador-->>AgenteTablero: Propose (EstadoPartida)
-
-Note right of AgenteJugador: Agente que no mueve en el turno
+Note right of AgenteJugador: Si hay abandono o no lo toca jugar este turno
 
 else
 
 AgenteJugador-->>AgenteTablero: Propose (MovimientoEntregadoLinea)
 
-Note right of AgenteJugador: Agente que no mueve en el turno
+Note right of AgenteJugador: Agente que mueve en el turno
 
 end
 
 alt
 
 AgenteTablero->>AgenteJugador: accept-proposal(MovimientoEntregadoLinea)
-
-Note left of AgenteTablero: Para todos los jugadores
 
 else
 
