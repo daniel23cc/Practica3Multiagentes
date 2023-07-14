@@ -228,11 +228,12 @@ end
 
 ##### 1.6 ¿Como completar un turno de una partida ?¿Como completar la partida?
 
-El `AgenteTablero` es el encargado de organizar los turnos que componen una partida. De esta forma lo importante es identificar los elementos de información necesarios para completar un turno de juego. Para completar la partida hay que ir generando los turnos necesarios hasta obtener un ganador o declarar un empate.
+El `AgenteTablero` es el encargado de organizar los turnos que componen una partida. De esta forma lo importante es identificar los elementos de información necesarios para completar un turno de juego. 
 
-Para completar un turno de juego se envía el mismo mensaje a los jugadores que tiene la partida. La información necesaria depende del tipo de juego:
+Para completar un turno de juego se envía el mismo mensaje a los todos los jugadores que forman parte de la partida. La información necesaria depende del tipo de juego.
 
-Turno para los juegos:
+Para completar una partida, bastaría con repetir las veces que sean necesarias el esquema de un turno, hasta encontrar un ganador o un empate.
+
 
 **Parchís y Backgammon**
 
@@ -241,33 +242,25 @@ sequenceDiagram
 
 AgenteTablero->>AgenteJugador: CFP (PedirMovimiento)
 
-Note left of AgenteTablero: 2 seg time out
+Note left of AgenteTablero: Para todos los jugadores
 
 alt
 
 AgenteJugador-->>AgenteTablero: Refuse (EstadoPartida)
 
-Note right of AgenteJugador: Si hay abandono
-
-else
-
-AgenteJugador-->>AgenteTablero: Propose (EstadoPartida)
-
-Note right of AgenteJugador: Agente que no mueve en el turno
+Note right of AgenteJugador: Si hay abandono o agente que no mueve este turno
 
 else
 
 AgenteJugador-->>AgenteTablero: Propose (MovimientoEntregadoLinea)
 
-Note right of AgenteJugador: Agente que no mueve en el turno
+Note right of AgenteJugador: Agente que si mueve en el turno
 
 end
 
 alt
 
 AgenteTablero->>AgenteJugador: accept-proposal(MovimientoEntregadoLinea)
-
-Note left of AgenteTablero: Para todos los jugadores
 
 else
 
@@ -310,7 +303,6 @@ En el diagrama se presentan los elementos de la ontología que deberán formar p
 	
 
 
-
 **Gatos y ratón  y Escalera :**
 
 ```mermaid
@@ -318,33 +310,25 @@ sequenceDiagram
 
 AgenteTablero->>AgenteJugador: CFP (PedirMovimiento)
 
-Note left of AgenteTablero: 2 seg time out
+Note left of AgenteTablero: Para todos los jugadores
 
 alt
 
 AgenteJugador-->>AgenteTablero: Refuse (EstadoPartida)
 
-Note right of AgenteJugador: Si hay abandono
-
-else
-
-AgenteJugador-->>AgenteTablero: Propose (EstadoPartida)
-
-Note right of AgenteJugador: Agente que no mueve en el turno
+Note right of AgenteJugador: Si hay abandono o no lo toca jugar este turno
 
 else
 
 AgenteJugador-->>AgenteTablero: Propose (MovimientoEntregadoLinea)
 
-Note right of AgenteJugador: Agente que no mueve en el turno
+Note right of AgenteJugador: Agente que mueve en el turno
 
 end
 
 alt
 
 AgenteTablero->>AgenteJugador: accept-proposal(MovimientoEntregadoLinea)
-
-Note left of AgenteTablero: Para todos los jugadores
 
 else
 
@@ -386,7 +370,7 @@ En el diagrama se presentan los elementos de la ontología que deberán formar p
 	
 
 ##### 1.7 ¿Como informar del resultado de la partida?
-Un `AgenteArbitro` o  `AgenteJugador` que participe en partidas dirigidas por un `AgenteTablero` necesita conocer el resultado de las partidas que el `AgenteTablero` complete. La información que remite el `AgenteTablero` debe identificar el agente que la solicita para reciba solo las partidas en las que está implicado.
+Un `AgenteArbitro` o  `AgenteJugador` que participe en partidas dirigidas por un `AgenteTablero` necesita conocer el resultado de las partidas que el `AgenteTablero` completo. La información que remite el `AgenteTablero` debe identificar el agente que la solicita para reciba solo las partidas en las que está implicado.
 
 ```mermaid
 sequenceDiagram
